@@ -1,0 +1,160 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<div class="login-page-wrapper">
+    <div class="logincontainer @(TempData["ShowRegister"] != null ? "active" : "")">
+
+        <!-- Login Form -->
+        <div class="form-box login">
+            <form method="post" asp-page-handler="Login" id="loginForm">
+                <img src="~/src/logo.svg" alt="Logo" />
+                <h1>Login</h1>
+
+                @if (Model.SuccessMessage != null)
+                {
+                    <div class="alert alert-success">
+                        <i class="fa-solid fa-check-circle"></i>
+                        <span>@Model.SuccessMessage</span>
+                    </div>
+                }
+
+                @if (Model.ErrorMessage != null && TempData["ShowRegister"] == null)
+                {
+                    <div class="alert alert-danger">
+                        <i class="fa-solid fa-exclamation-circle"></i>
+                        <span>@Model.ErrorMessage</span>
+                    </div>
+                }
+
+                <div class="input-box">
+                    <input type="text" asp-for="LoginInput.Username" id="loginUsername" placeholder="Username" required />
+                    <i class="fa-solid fa-user"></i>
+                    <span asp-validation-for="LoginInput.Username" class="text-danger"></span>
+                </div>
+
+                <div class="input-box">
+                    <input type="password" asp-for="LoginInput.Password" id="loginPassword" placeholder="Password" required />
+                    <i class="fa-solid fa-lock"></i>
+                    <span asp-validation-for="LoginInput.Password" class="text-danger"></span>
+                </div>
+
+                <div class="forgot-link">
+                    <a href="#">Forget Password?</a>
+                </div>
+
+                <button type="submit" class="btn">
+                    <span class="btn-text">Sign In</span>
+                    <span class="btn-spinner" style="display:none;">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                    </span>
+                </button>
+
+                <p>Or login with social platforms</p>
+
+                <div class="social-icons">
+                    <a href="#"><i class="fa-brands fa-google"></i></a>
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-github"></i></a>
+                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Registration Form -->
+        <div class="form-box register">
+            <form method="post" asp-page-handler="Register" id="registerForm">
+                <img src="~/src/logo.svg" alt="Logo" />
+                <h1>Registration</h1>
+
+                @if (Model.ErrorMessage != null && TempData["ShowRegister"] != null)
+                {
+                    <div class="alert alert-danger">
+                        <i class="fa-solid fa-exclamation-circle"></i>
+                        <span>@Model.ErrorMessage</span>
+                    </div>
+                }
+
+                <div class="input-box">
+                    <input type="text" asp-for="RegisterInput.Username" id="registerUsername" placeholder="Username" required />
+                    <i class="fa-solid fa-user"></i>
+                    <span asp-validation-for="RegisterInput.Username" class="text-danger"></span>
+                </div>
+
+                <div class="input-box">
+                    <input type="email" asp-for="RegisterInput.Email" id="registerEmail" placeholder="Email" required />
+                    <i class="fa-solid fa-envelope"></i>
+                    <span asp-validation-for="RegisterInput.Email" class="text-danger"></span>
+                </div>
+
+                <div class="input-box">
+                    <input type="password" asp-for="RegisterInput.Password" id="registerPassword" placeholder="Password" required />
+                    <i class="fa-solid fa-lock"></i>
+                    <span asp-validation-for="RegisterInput.Password" class="text-danger"></span>
+                    <small class="password-hint text-muted">
+                        Min 6 chars, 1 uppercase, 1 lowercase, 1 number, 1 special char
+                    </small>
+                </div>
+
+                <div class="input-box">
+                    <input type="password" asp-for="RegisterInput.ConfirmPassword" id="registerConfirmPassword" placeholder="Confirm Password" required />
+                    <i class="fa-solid fa-lock"></i>
+                    <span asp-validation-for="RegisterInput.ConfirmPassword" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn">
+                    <span class="btn-text">Register</span>
+                    <span class="btn-spinner" style="display:none;">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                    </span>
+                </button>
+
+                <p>Or register with social platforms</p>
+
+                <div class="social-icons">
+                    <a href="#"><i class="fa-brands fa-google"></i></a>
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-github"></i></a>
+                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Toggle Panel -->
+        <div class="toggle-box">
+            <div class="toggle-panel toggle-left">
+                <h1>Hello, Welcome!</h1>
+                <p class="company-tagline">Global Tomukuta Technology</p>
+                <p class="company-description">
+                    Your trusted partner in innovative technology solutions.
+                    Empowering businesses with cutting-edge tools and exceptional
+                    service across the Philippines.
+                </p>
+                <p class="register-prompt">Don't have an Account?</p>
+                <button class="btn register-btn" type="button">Register</button>
+            </div>
+
+            <div class="toggle-panel toggle-right">
+                <h1>Welcome Back!</h1>
+                <p class="company-tagline">Global Tomukuta Technology</p>
+                <p class="company-description">
+                    Leading the future of technology. We're committed to delivering
+                    quality products and innovative solutions that drive your success.
+                </p>
+                <p class="login-prompt">Already have an Account?</p>
+                <button class="btn login-btn" type="button">Login</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/login.js" asp-append-version="true"></script>
+}
